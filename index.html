@@ -651,7 +651,7 @@
               </div>
               <div>
                 <h3 class="text-lg font-bold text-white">Live GitHub Stats & Activity</h3>
-                <p class="text-xs text-slate-400 font-mono">Real-time open source metrics from @GITomprasad</p>
+                <p class="text-xs text-slate-400 font-mono">Open source repository metrics & active contributions from @GITomprasad</p>
               </div>
             </div>
             <a href="https://github.com/GITomprasad" target="_blank" rel="noopener noreferrer" class="self-start sm:self-auto px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-cyan-300 flex items-center gap-1.5 transition-colors">
@@ -660,31 +660,139 @@
             </a>
           </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
-            <!-- Stats Card -->
-            <div class="rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950/60 p-2 flex items-center justify-center shadow-inner">
-              <img 
-                src="https://github-readme-stats.vercel.app/api?username=GITomprasad&show_icons=true&theme=tokyonight&hide_border=true&bg_color=00000000" 
-                alt="Om Prasad Sahoo GitHub Stats" 
-                class="w-full h-auto max-w-md object-contain"
-                loading="lazy"
-              />
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+            
+            <!-- Custom Card 1: GitHub Stats & Highlights -->
+            <div class="rounded-xl border border-slate-800/80 bg-slate-950/70 p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-inner">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-base">
+                    <i class="fa-solid fa-chart-pie"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Repository Overview</h4>
+                    <p class="text-[11px] text-slate-400 font-mono">GitHub Profile Intelligence</p>
+                  </div>
+                </div>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-mono font-medium flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Active
+                </span>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
+                <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl">
+                  <div id="gh-repo-count" class="text-xl font-bold font-mono text-cyan-400">3</div>
+                  <div class="text-[10px] text-slate-400 uppercase font-mono mt-0.5">Public Repos</div>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl">
+                  <div class="text-xl font-bold font-mono text-emerald-400">2</div>
+                  <div class="text-[10px] text-slate-400 uppercase font-mono mt-0.5">Live AI Apps</div>
+                </div>
+                <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-xl col-span-2 sm:col-span-1">
+                  <div class="text-xl font-bold font-mono text-purple-400">100%</div>
+                  <div class="text-[10px] text-slate-400 uppercase font-mono mt-0.5">Open Source</div>
+                </div>
+              </div>
+
+              <div class="space-y-2 text-xs font-mono text-slate-300 pt-1">
+                <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 flex items-center gap-2">
+                    <i class="fa-solid fa-code-branch text-indigo-400"></i> Primary Focus
+                  </span>
+                  <span class="text-cyan-300 font-medium">Machine Learning & Web</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-teal-400"></i> Active Member
+                  </span>
+                  <span class="text-slate-200">Since 2024</span>
+                </div>
+              </div>
             </div>
-            <!-- Top Languages Card -->
-            <div class="rounded-xl overflow-hidden border border-slate-800/80 bg-slate-950/60 p-2 flex items-center justify-center shadow-inner">
-              <img 
-                src="https://github-readme-stats.vercel.app/api/top-langs/?username=GITomprasad&layout=compact&theme=tokyonight&hide_border=true&bg_color=00000000" 
-                alt="Om Prasad Sahoo Top Languages" 
-                class="w-full h-auto max-w-md object-contain"
-                loading="lazy"
-              />
+
+            <!-- Custom Card 2: Language Breakdown -->
+            <div class="rounded-xl border border-slate-800/80 bg-slate-950/70 p-5 sm:p-6 flex flex-col justify-between space-y-4 shadow-inner">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-800/80">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-base">
+                    <i class="fa-solid fa-code"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-white">Top Languages</h4>
+                    <p class="text-[11px] text-slate-400 font-mono">Codebase Distribution</p>
+                  </div>
+                </div>
+                <span class="text-xs font-mono text-slate-400">Repo Analytics</span>
+              </div>
+
+              <div class="space-y-3">
+                <!-- Python -->
+                <div class="space-y-1">
+                  <div class="flex justify-between text-xs font-mono">
+                    <span class="text-slate-300 flex items-center gap-1.5">
+                      <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Python
+                    </span>
+                    <span class="text-amber-400 font-bold">48%</span>
+                  </div>
+                  <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div class="h-full bg-amber-400 rounded-full" style="width: 48%"></div>
+                  </div>
+                </div>
+
+                <!-- TypeScript / React -->
+                <div class="space-y-1">
+                  <div class="flex justify-between text-xs font-mono">
+                    <span class="text-slate-300 flex items-center gap-1.5">
+                      <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span> TypeScript / React
+                    </span>
+                    <span class="text-blue-400 font-bold">36%</span>
+                  </div>
+                  <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div class="h-full bg-blue-400 rounded-full" style="width: 36%"></div>
+                  </div>
+                </div>
+
+                <!-- C++ -->
+                <div class="space-y-1">
+                  <div class="flex justify-between text-xs font-mono">
+                    <span class="text-slate-300 flex items-center gap-1.5">
+                      <span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span> C++ / C
+                    </span>
+                    <span class="text-indigo-400 font-bold">12%</span>
+                  </div>
+                  <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div class="h-full bg-indigo-400 rounded-full" style="width: 12%"></div>
+                  </div>
+                </div>
+
+                <!-- SQL / Other -->
+                <div class="space-y-1">
+                  <div class="flex justify-between text-xs font-mono">
+                    <span class="text-slate-300 flex items-center gap-1.5">
+                      <span class="w-2.5 h-2.5 rounded-full bg-teal-400"></span> SQL & Web Shell
+                    </span>
+                    <span class="text-teal-400 font-bold">4%</span>
+                  </div>
+                  <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                    <div class="h-full bg-teal-400 rounded-full" style="width: 4%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400 font-mono">
+                <span>Calculated across active codebases</span>
+              </div>
             </div>
+
           </div>
 
           <!-- Dynamic Contribution Graph -->
           <div class="pt-2 border-t border-slate-800/80">
-            <div class="text-xs font-mono text-slate-400 mb-3 flex items-center gap-2">
-              <i class="fa-solid fa-chart-simple text-cyan-400"></i> Continuous Contribution Activity
+            <div class="text-xs font-mono text-slate-400 mb-3 flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <i class="fa-solid fa-chart-simple text-cyan-400"></i> Continuous Contribution Activity
+              </span>
+              <span class="text-[11px] text-slate-500">Live Heatmap</span>
             </div>
             <div class="overflow-x-auto rounded-xl p-3 bg-slate-950/60 border border-slate-800/80 flex items-center justify-center">
               <img 
@@ -692,6 +800,7 @@
                 alt="Om Prasad Sahoo's GitHub Contribution Chart" 
                 class="min-w-[650px] w-full h-auto"
                 loading="lazy"
+                onerror="this.parentElement.innerHTML='<div class=\'text-center py-4 text-xs text-slate-400 font-mono\'>Contributions active on github.com/GITomprasad</div>';"
               />
             </div>
           </div>

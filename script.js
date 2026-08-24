@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
   initScrollSpy();
   initMobileMenu();
+  initGitHubStats();
   updateCopyrightYear();
   registerServiceWorker();
 });
@@ -748,3 +749,26 @@ function registerServiceWorker() {
     });
   }
 }
+
+/* ==========================================================
+   18. GITHUB LIVE STATS FETCHER
+   ========================================================== */
+function initGitHubStats() {
+  const repoCountEl = document.getElementById('gh-repo-count');
+  if (!repoCountEl) return;
+
+  fetch('https://api.github.com/users/GITomprasad')
+    .then(res => {
+      if (res.ok) return res.json();
+      throw new Error('API unavailable');
+    })
+    .then(data => {
+      if (data && typeof data.public_repos === 'number') {
+        repoCountEl.textContent = data.public_repos;
+      }
+    })
+    .catch(() => {
+      // Quietly retain default fallback
+    });
+}
+
