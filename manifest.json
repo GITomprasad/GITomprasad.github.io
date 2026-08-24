@@ -1,0 +1,18 @@
+{
+  "name": "Om Prasad Sahoo | ML Engineer & Developer Portfolio",
+  "short_name": "Om Prasad",
+  "description": "Portfolio of Om Prasad Sahoo - Computer Science Undergraduate at NIST University specializing in Machine Learning, NLP, Data Science, and Software Engineering.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080d1a",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/om-profile.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

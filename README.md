@@ -1,25 +1,39 @@
-# 🚀 Om Prasad Sahoo - Developer Portfolio
+# 🚀 Om Prasad Sahoo - Developer Portfolio (2026 Edition)
 
-A modern, high-performance, responsive developer portfolio website designed for **Om Prasad Sahoo** (Computer Science & Engineering undergraduate at NIST University, CGPA: **9.29 / 10.0**).
+A modern, high-performance, responsive developer portfolio website designed for **Om Prasad Sahoo** (Computer Science & Engineering undergraduate at NIST University, CGPA: **9.29 / 10.0**). Built with Tailwind CSS, custom modern CSS glassmorphism, interactive JavaScript engines, and PWA offline capability.
 
 ---
 
-## 🌟 Features
+## 🌟 Featured Projects
 
-- **Personal Brand Hero**: Dynamic typewriter roles, CGPA badge (**9.29 / 10.0**), quick action CTAs, and interactive terminal code card.
-- **Background & Education**: Detailed academic timeline featuring **NIST University** (B.Tech CSE, 9.29 CGPA) and **Samanta Chandra Sekhar Higher Secondary School** (CHSE Science, 78.0%), along with language proficiency badges (English, Odia, Hindi).
-- **Filterable Technical Skills Matrix**: Categorized tech stacks across:
-  - **Programming Languages**: C++, C, Python, Java, SQL, HTML5, CSS3
-  - **Data Science & Machine Learning**: Natural Language Processing (NLP), Machine Learning, NumPy, Pandas, Matplotlib, Scikit-Learn
-  - **Core CS Competencies**: Data Structures and Algorithms (DSA), Object-Oriented Programming (OOP), DBMS, Academic Writing
-  - **Developer Tools & Platforms**: Git, GitHub, VS Code, Google Colab, Jupyter Notebook, Overleaf
-- **Internship & Academic Experience**: Dedicated showcase for:
-  - *Cloud Collaborative Machine Learning Intern* (NIST University, 2nd Year)
-  - *Object-Oriented Programming with C++ Intern* (NIST University, 1st Year)
-  - *Machine Learning & Applied AI Trainee* (AWS Academy & Online Labs)
-- **Certifications & Key Achievements**: Cards showcasing 7 credentials (AWS NLP, AWS ML Foundations, C++ Essentials 1 & 2, C Essentials 1, Data Science Specialization, Tata Crucible Campus Quiz, Academic Writing & AI Workshop) with PDF viewer modal.
-- **Interactive Contact**: Form with instant feedback toast, one-click copy buttons for email and phone, and direct LinkedIn/GitHub profiles.
-- **Interactive UI FX**: Interactive constellation particle canvas background, glassmorphic dark theme, glowing gradients, smooth scroll-spy navigation.
+### 1. [Career Intelligence Engine](https://career-intelligence-engine.streamlit.app/)
+- **Live Application**: [career-intelligence-engine.streamlit.app](https://career-intelligence-engine.streamlit.app/)
+- **GitHub Repository**: [github.com/GITomprasad/Career-Intelligence-Engine](https://github.com/GITomprasad/Career-Intelligence-Engine)
+- **Tech Stack**: Python, Streamlit, Scikit-Learn, RapidOCR, NLP (TF-IDF, Jaccard), ReportLab, Docker
+- **Overview**: AI-powered career navigation, ATS resume diagnostics, and talent intelligence platform. Features neural OCR multi-format document ingestion, explainable ATS scoring, hybrid compatibility ranking across 3,500+ tech job openings, dynamic 4-phase learning roadmaps, and regularized salary compensation regression forecasting.
+
+### 2. [Urban Risk Intelligence](https://urban-risk-intelligence-ai.netlify.app/)
+- **Live Application**: [urban-risk-intelligence-ai.netlify.app](https://urban-risk-intelligence-ai.netlify.app/)
+- **GitHub Repository**: [github.com/GITomprasad/Urban-Risk-Intelligence](https://github.com/GITomprasad/Urban-Risk-Intelligence)
+- **Tech Stack**: TypeScript, React, Vite, Tailwind CSS, Lucide Icons, Predictive Analytics, Netlify
+- **Overview**: Interactive centralized urban risk intelligence platform for analyzing, visualizing, and communicating city-level risks. Features multi-city analytics dashboard, live command center, predictive timeline modeling, alert management workflows, data health monitors, and granular cell risk diagnostics.
+
+---
+
+## ✨ Upgraded UI & Engineering Features
+
+- **Bento Grid Hero Layout**: Asymmetric 3×2 Bento Grid containing personal branding, animated gradient titles, dynamic typewriter, live IST digital clock widget, tech stack wall, and 1-click contact cards.
+- **Scroll-Triggered Reveal Animations**: Native `IntersectionObserver` smooth entrance effects across all sections.
+- **Live GitHub Stats & Contribution Graph**: Embedded `github-readme-stats` and dynamic contribution activity chart from `@GITomprasad`.
+- **Skill Proficiency at a Glance**: Animated horizontal progress bars for C++ (90%), Python (85%), ML (80%), SQL (80%), NLP (75%), and Web Engineering (75%).
+- **Interactive Custom Cursor**: Lerp-interpolated animated ring and dot follower with hover expansion on interactive elements (disabled on touch devices).
+- **Branded Preloader Screen**: Animated OPS logo sequence and progress bar with smooth slide-up exit.
+- **Back-to-Top with Circular Progress Ring**: Floating action button with SVG `stroke-dashoffset` scroll depth tracking.
+- **Categorized Project & Skill Filters**: Instant tab filtering across Machine Learning, Web, SQL, Python, and Core CS.
+- **Interactive Modals**:
+  - *Certificate Preview Modal*: Live PDF iframe viewer and verified institutional fallback card.
+  - *Official Resume Modal*: Print & PDF export with updated flagship project details.
+- **Progressive Web App (PWA) & SEO**: Complete `manifest.json`, `sw.js` service worker, Open Graph & Twitter Cards, canonical URL, and JSON-LD `Person` schema markup.
 
 ---
 
@@ -28,9 +42,9 @@ A modern, high-performance, responsive developer portfolio website designed for 
 You can view the portfolio locally using any of the following methods:
 
 ### Option 1: Direct Browser
-Simply double-click `index.html` or open it with your web browser (Chrome, Edge, Firefox).
+Simply open `index.html` with your web browser (Chrome, Edge, Firefox, Brave).
 
-### Option 2: Local HTTP Server (Python)
+### Option 2: Local Python Server
 Run the following command inside this directory:
 ```bash
 python -m http.server 3000
@@ -44,23 +58,17 @@ npx serve .
 
 ---
 
-## 🌐 Free 1-Click Deployment
+## 🌐 Deployment to GitHub Pages
 
-### Deploy to GitHub Pages:
-1. Initialize git and push this repository to GitHub:
+1. Commit and push this repository to GitHub:
    ```bash
-   git init
    git add .
-   git commit -m "Update portfolio structure"
-   git branch -M main
-   git remote add origin https://github.com/GITomprasad/portfolio.git
-   git push -u origin main
+   git commit -m "Upgrade portfolio: Bento Hero, Flagship Projects, PWA & UI Polish"
+   git push origin main
    ```
-2. In your GitHub repository, go to **Settings > Pages**.
-3. Under **Branch**, select `main` and root `/`, then click **Save**. Your site will be live at `https://gitomprasad.github.io/portfolio/`.
-
-### Deploy to Vercel or Netlify:
-- Drag and drop this folder onto [Vercel](https://vercel.com) or [Netlify](https://netlify.com) for instant global deployment.
+2. In your GitHub repository, navigate to **Settings > Pages**.
+3. Under **Branch**, select `main` and root `/`, then click **Save**.
+4. Your site will be live at `https://gitomprasad.github.io/portfolio/`.
 
 ---
 

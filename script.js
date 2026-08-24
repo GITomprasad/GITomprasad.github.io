@@ -1,29 +1,118 @@
 /**
- * Om Prasad Sahoo - Developer Portfolio JavaScript
+ * Om Prasad Sahoo - Developer Portfolio JavaScript Engine
+ * UI Upgrade & Feature Improvement Guide (August 2026 Edition)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initPreloader();
+  initCustomCursor();
   initThemeToggle();
+  initISTClock();
   initTypewriter();
   initCanvasBackground();
+  initScrollReveal();
+  initSkillProgressBars();
+  initBackToTop();
   initSkillFilters();
   initProjectFilters();
   initContactForm();
   initScrollSpy();
   initMobileMenu();
   updateCopyrightYear();
+  registerServiceWorker();
 });
 
 /* ==========================================================
-   1. THEME TOGGLE (DARK / LIGHT MODE)
+   1. PRELOADER / LOADING SCREEN
+   ========================================================== */
+function initPreloader() {
+  const dismissPreloader = () => {
+    document.body.classList.add('loaded');
+  };
+
+  // Dismiss when window is fully loaded or after safe timeout (max 1.2s)
+  if (document.readyState === 'complete') {
+    setTimeout(dismissPreloader, 600);
+  } else {
+    window.addEventListener('load', () => {
+      setTimeout(dismissPreloader, 500);
+    });
+    setTimeout(dismissPreloader, 1200); // Fallback guarantee
+  }
+}
+
+/* ==========================================================
+   2. CUSTOM ANIMATED CURSOR WITH LERP
+   ========================================================== */
+function initCustomCursor() {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
+
+  // Check if touch device
+  if (window.matchMedia('(pointer: coarse)').matches) {
+    return;
+  }
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let ringX = mouseX;
+  let ringY = mouseY;
+  let isMoving = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    if (!isMoving) {
+      isMoving = true;
+      requestAnimationFrame(renderCursor);
+    }
+  });
+
+  function renderCursor() {
+    // Smooth lerp (linear interpolation)
+    ringX += (mouseX - ringX) * 0.18;
+    ringY += (mouseY - ringY) * 0.18;
+
+    ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
+
+    if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+      requestAnimationFrame(renderCursor);
+    } else {
+      isMoving = false;
+    }
+  }
+
+  // Hover detection on interactive elements
+  const hoverTargets = 'a, button, input, textarea, .bento-card, .skill-card, .project-item, .cert-card, .skill-filter-btn, .project-filter-btn';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(hoverTargets)) {
+      document.body.classList.add('cursor-hover');
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(hoverTargets)) {
+      document.body.classList.remove('cursor-hover');
+    }
+  });
+}
+
+/* ==========================================================
+   3. THEME TOGGLE (DARK / LIGHT & OS PREFERENCE)
    ========================================================== */
 function initThemeToggle() {
   const desktopBtn = document.getElementById('theme-toggle-btn');
   const mobileBtn = document.getElementById('theme-toggle-mobile');
   const themeIcon = document.getElementById('theme-icon');
 
-  const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
-  setTheme(savedTheme);
+  // Check saved preference, otherwise detect system preference
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'dark'); // default dark
+
+  setTheme(initialTheme);
 
   function toggleTheme() {
     const isDark = document.documentElement.classList.contains('dark');
@@ -42,29 +131,72 @@ function initThemeToggle() {
     }
   }
 
+  // Listen for OS system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('portfolio-theme')) {
+      setTheme(e.matches ? 'dark' : 'light');
+    }
+  });
+
   if (desktopBtn) desktopBtn.addEventListener('click', toggleTheme);
   if (mobileBtn) mobileBtn.addEventListener('click', toggleTheme);
 }
 
 /* ==========================================================
-   2. TYPEWRITER EFFECT
+   4. LIVE IST CLOCK (Bento Card C)
+   ========================================================== */
+function initISTClock() {
+  const clockEl = document.getElementById('ist-clock');
+  const dateEl = document.getElementById('ist-date');
+  if (!clockEl) return;
+
+  function updateClock() {
+    const now = new Date();
+    // Format to Indian Standard Time (Asia/Kolkata)
+    const optionsTime = {
+      timeZone: 'Asia/Kolkata',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    };
+    const optionsDate = {
+      timeZone: 'Asia/Kolkata',
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    };
+
+    clockEl.textContent = now.toLocaleTimeString('en-US', optionsTime);
+    if (dateEl) {
+      dateEl.textContent = now.toLocaleDateString('en-US', optionsDate) + ' (IST)';
+    }
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+}
+
+/* ==========================================================
+   5. TYPEWRITER EFFECT
    ========================================================== */
 function initTypewriter() {
   const words = [
+    'Career Intelligence Engine',
+    'Urban Risk Intelligence AI',
     'Intelligent NLP Pipelines',
     'Machine Learning Models',
     'Relational SQL Analytics',
-    'High-Performance C++ Logic',
-    'Data Preprocessing Systems'
+    'High-Performance C++ Logic'
   ];
-  
+
   const element = document.getElementById('typewriter-text');
   if (!element) return;
 
   let wordIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
-  let typingSpeed = 100;
+  let typingSpeed = 90;
 
   function type() {
     const currentWord = words[wordIndex];
@@ -72,15 +204,15 @@ function initTypewriter() {
     if (isDeleting) {
       element.textContent = currentWord.substring(0, charIndex - 1);
       charIndex--;
-      typingSpeed = 50;
+      typingSpeed = 45;
     } else {
       element.textContent = currentWord.substring(0, charIndex + 1);
       charIndex++;
-      typingSpeed = 110;
+      typingSpeed = 100;
     }
 
     if (!isDeleting && charIndex === currentWord.length) {
-      typingSpeed = 2200; // Pause at end of word
+      typingSpeed = 2000; // Pause when word is fully typed
       isDeleting = true;
     } else if (isDeleting && charIndex === 0) {
       isDeleting = false;
@@ -95,7 +227,7 @@ function initTypewriter() {
 }
 
 /* ==========================================================
-   3. INTERACTIVE CANVAS PARTICLE CONSTELLATION
+   6. INTERACTIVE CONSTELLATION CANVAS
    ========================================================== */
 function initCanvasBackground() {
   const canvas = document.getElementById('bg-canvas');
@@ -113,15 +245,15 @@ function initCanvasBackground() {
   resize();
   window.addEventListener('resize', resize);
 
-  const particleCount = Math.min(Math.floor(window.innerWidth / 20), 55);
+  const particleCount = Math.min(Math.floor(window.innerWidth / 22), 50);
 
   class Particle {
     constructor() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.4;
-      this.vy = (Math.random() - 0.5) * 0.4;
-      this.radius = Math.random() * 1.6 + 0.8;
+      this.vx = (Math.random() - 0.5) * 0.35;
+      this.vy = (Math.random() - 0.5) * 0.35;
+      this.radius = Math.random() * 1.5 + 0.8;
       this.color = Math.random() > 0.5 ? 'rgba(99, 102, 241, ' : 'rgba(6, 182, 212, ';
     }
 
@@ -157,11 +289,11 @@ function initCanvasBackground() {
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 120) {
+        if (dist < 115) {
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(99, 102, 241, ${0.18 * (1 - dist / 120)})`;
+          ctx.strokeStyle = `rgba(99, 102, 241, ${0.16 * (1 - dist / 115)})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
         }
@@ -175,7 +307,89 @@ function initCanvasBackground() {
 }
 
 /* ==========================================================
-   4. SKILL & PROJECT FILTERING
+   7. SCROLL-TRIGGERED REVEAL ANIMATIONS
+   ========================================================== */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal');
+  if (!revealElements.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/* ==========================================================
+   8. SKILL PROFICIENCY PROGRESS BARS
+   ========================================================== */
+function initSkillProgressBars() {
+  const progressBars = document.querySelectorAll('.progress-bar-fill');
+  if (!progressBars.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const targetWidth = entry.target.getAttribute('data-width') || '80%';
+        entry.target.style.width = targetWidth;
+        obs.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  progressBars.forEach(bar => observer.observe(bar));
+}
+
+/* ==========================================================
+   9. BACK-TO-TOP BUTTON WITH SVG PROGRESS RING
+   ========================================================== */
+function initBackToTop() {
+  const backToTopBtn = document.getElementById('back-to-top');
+  const progressCircle = document.getElementById('progress-ring-circle');
+  if (!backToTopBtn || !progressCircle) return;
+
+  const circumference = 2 * Math.PI * 20; // r = 20
+  progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+  progressCircle.style.strokeDashoffset = `${circumference}`;
+
+  function updateScrollProgress() {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.min(Math.max(scrollY / (docHeight || 1), 0), 1);
+
+    const offset = circumference - (progress * circumference);
+    progressCircle.style.strokeDashoffset = offset;
+
+    if (scrollY > 380) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}
+
+/* ==========================================================
+   10. SKILL & PROJECT FILTERING
    ========================================================== */
 function initSkillFilters() {
   const filterBtns = document.querySelectorAll('.skill-filter-btn');
@@ -189,7 +403,7 @@ function initSkillFilters() {
       const filter = btn.getAttribute('data-filter');
 
       skillCards.forEach(card => {
-        const categories = card.getAttribute('data-category').split(' ');
+        const categories = (card.getAttribute('data-category') || '').split(' ');
         if (filter === 'all' || categories.includes(filter)) {
           card.classList.remove('hide');
         } else {
@@ -212,8 +426,8 @@ function initProjectFilters() {
       const filter = btn.getAttribute('data-filter');
 
       projectItems.forEach(item => {
-        const category = item.getAttribute('data-category');
-        if (filter === 'all' || category === filter) {
+        const categories = (item.getAttribute('data-category') || '').split(' ');
+        if (filter === 'all' || categories.includes(filter)) {
           item.classList.remove('hide');
         } else {
           item.classList.add('hide');
@@ -224,13 +438,13 @@ function initProjectFilters() {
 }
 
 /* ==========================================================
-   5. CONTACT FORM & FEEDBACK
+   11. CONTACT FORM & FEEDBACK (FORMSPREE / AJAX READY)
    ========================================================== */
 function initContactForm() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
@@ -248,20 +462,49 @@ function initContactForm() {
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Sending...</span>';
     submitBtn.disabled = true;
 
-    const mailtoUrl = `mailto:omsahoo07102005@gmail.com?subject=${encodeURIComponent(subject + ' - from ' + name)}&body=${encodeURIComponent("Sender Name: " + name + "\nSender Email: " + email + "\n\n" + message)}`;
-
-    setTimeout(() => {
-      window.location.href = mailtoUrl;
-      showToast('Message formatted! Opening email client...');
-      form.reset();
-      submitBtn.innerHTML = originalBtnText;
-      submitBtn.disabled = false;
-    }, 600);
+    // Check if form action has a custom Formspree URL or fallback to mailto/interactive feedback
+    const formAction = form.getAttribute('action');
+    if (formAction && formAction.includes('formspree.io/f/')) {
+      try {
+        const response = await fetch(formAction, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name, email, subject, message })
+        });
+        if (response.ok) {
+          showToast('Message sent successfully! I will reply soon.', 'success');
+          form.reset();
+        } else {
+          showToast('Could not send message via form endpoint. Opening email...', 'error');
+          openMailto(name, email, subject, message);
+        }
+      } catch (err) {
+        showToast('Network error. Opening email client...', 'error');
+        openMailto(name, email, subject, message);
+      } finally {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }
+    } else {
+      // Default: Clean feedback and open email client
+      setTimeout(() => {
+        openMailto(name, email, subject, message);
+        showToast('Opening your email client with message...', 'success');
+        form.reset();
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      }, 500);
+    }
   });
+
+  function openMailto(name, email, subject, message) {
+    const mailtoUrl = `mailto:omsahoo07102005@gmail.com?subject=${encodeURIComponent(subject + ' - from ' + name)}&body=${encodeURIComponent("Sender Name: " + name + "\nSender Email: " + email + "\n\n" + message)}`;
+    window.location.href = mailtoUrl;
+  }
 }
 
 /* ==========================================================
-   6. COPY TO CLIPBOARD & TOAST NOTIFICATION
+   12. COPY TO CLIPBOARD & TOAST NOTIFICATION
    ========================================================== */
 function copyToClipboard(text, message = 'Copied to clipboard!') {
   if (navigator.clipboard && window.isSecureContext) {
@@ -302,10 +545,10 @@ function showToast(message, type = 'success') {
   toastMsg.textContent = message;
 
   if (type === 'error') {
-    toastIcon.className = 'w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm';
+    toastIcon.className = 'w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm shrink-0';
     toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
   } else {
-    toastIcon.className = 'w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm';
+    toastIcon.className = 'w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0';
     toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
   }
 
@@ -315,18 +558,18 @@ function showToast(message, type = 'success') {
   setTimeout(() => {
     toast.classList.remove('translate-y-0', 'opacity-100');
     toast.classList.add('translate-y-24', 'opacity-0');
-  }, 3200);
+  }, 3400);
 }
 
 /* ==========================================================
-   7. SCROLL-SPY NAVIGATION
+   13. SCROLL-SPY NAVIGATION
    ========================================================== */
 function initScrollSpy() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
 
   function updateActiveLink() {
-    let scrollPosition = window.scrollY + 120;
+    let scrollPosition = window.scrollY + 140;
 
     sections.forEach(section => {
       const top = section.offsetTop;
@@ -345,12 +588,12 @@ function initScrollSpy() {
     });
   }
 
-  window.addEventListener('scroll', updateActiveLink);
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
   updateActiveLink();
 }
 
 /* ==========================================================
-   8. MOBILE MENU
+   14. MOBILE MENU
    ========================================================== */
 function initMobileMenu() {
   const menuBtn = document.getElementById('mobile-menu-btn');
@@ -363,12 +606,16 @@ function initMobileMenu() {
     const isHidden = mobileMenu.classList.contains('hidden');
     if (isHidden) {
       mobileMenu.classList.remove('hidden');
-      menuIcon.classList.remove('fa-bars');
-      menuIcon.classList.add('fa-xmark');
+      if (menuIcon) {
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-xmark');
+      }
     } else {
       mobileMenu.classList.add('hidden');
-      menuIcon.classList.remove('fa-xmark');
-      menuIcon.classList.add('fa-bars');
+      if (menuIcon) {
+        menuIcon.classList.remove('fa-xmark');
+        menuIcon.classList.add('fa-bars');
+      }
     }
   });
 
@@ -376,14 +623,16 @@ function initMobileMenu() {
   links.forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.add('hidden');
-      menuIcon.classList.remove('fa-xmark');
-      menuIcon.classList.add('fa-bars');
+      if (menuIcon) {
+        menuIcon.classList.remove('fa-xmark');
+        menuIcon.classList.add('fa-bars');
+      }
     });
   });
 }
 
 /* ==========================================================
-   9. CERTIFICATE MODAL
+   15. CERTIFICATE MODAL
    ========================================================== */
 function showCertModal(title, category, pdfUrl = null, issuer = 'Verified Authority', date = 'Completed') {
   const modal = document.getElementById('cert-modal');
@@ -448,7 +697,7 @@ function closeCertModal() {
 }
 
 /* ==========================================================
-   10. RESUME MODAL
+   16. RESUME MODAL
    ========================================================== */
 function openResumeModal() {
   const modal = document.getElementById('resume-modal');
@@ -464,7 +713,7 @@ function closeResumeModal() {
   modal.classList.add('opacity-0', 'pointer-events-none');
 }
 
-// Close modals on outside click
+// Close modals on outside click or ESC key
 window.addEventListener('click', (e) => {
   const certModal = document.getElementById('cert-modal');
   const resumeModal = document.getElementById('resume-modal');
@@ -473,12 +722,29 @@ window.addEventListener('click', (e) => {
   if (e.target === resumeModal) closeResumeModal();
 });
 
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeCertModal();
+    closeResumeModal();
+  }
+});
+
 /* ==========================================================
-   11. AUTO COPYRIGHT YEAR
+   17. AUTO COPYRIGHT YEAR & PWA SERVICE WORKER
    ========================================================== */
 function updateCopyrightYear() {
   const yearEl = document.getElementById('year-copy');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
+  }
+}
+
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').catch(() => {
+        // SW registration quiet fail if offline/file protocol
+      });
+    });
   }
 }
