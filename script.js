@@ -151,26 +151,28 @@ function initISTClock() {
   const dateEl = document.getElementById('ist-date');
   if (!clockEl) return;
 
+  // Format to Indian Standard Time (Asia/Kolkata)
+  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Kolkata',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: true
+  });
+
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Kolkata',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
   function updateClock() {
     const now = new Date();
-    // Format to Indian Standard Time (Asia/Kolkata)
-    const optionsTime = {
-      timeZone: 'Asia/Kolkata',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    };
-    const optionsDate = {
-      timeZone: 'Asia/Kolkata',
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric'
-    };
 
-    clockEl.textContent = now.toLocaleTimeString('en-US', optionsTime);
+    clockEl.textContent = timeFormatter.format(now);
     if (dateEl) {
-      dateEl.textContent = now.toLocaleDateString('en-US', optionsDate) + ' (IST)';
+      dateEl.textContent = dateFormatter.format(now) + ' (IST)';
     }
   }
 
