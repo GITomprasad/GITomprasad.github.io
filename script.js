@@ -772,3 +772,8 @@ function initGitHubStats() {
     });
 }
 
+
+// For testing in Node.js environment
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { copyToClipboard, fallbackCopy, showToast };
+}
