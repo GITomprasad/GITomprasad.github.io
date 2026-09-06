@@ -459,8 +459,18 @@ function initContactForm() {
     }
 
     const submitBtn = document.getElementById('submit-btn');
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Sending...</span>';
+    const originalChildren = Array.from(submitBtn.childNodes);
+    submitBtn.textContent = '';
+
+    const icon = document.createElement('i');
+    icon.className = 'fa-solid fa-spinner fa-spin';
+
+    const text = document.createElement('span');
+    text.textContent = 'Sending...';
+
+    submitBtn.appendChild(icon);
+    submitBtn.appendChild(document.createTextNode(' '));
+    submitBtn.appendChild(text);
     submitBtn.disabled = true;
 
     // Check if form action has a custom Formspree URL or fallback to mailto/interactive feedback
@@ -483,7 +493,8 @@ function initContactForm() {
         showToast('Network error. Opening email client...', 'error');
         openMailto(name, email, subject, message);
       } finally {
-        submitBtn.innerHTML = originalBtnText;
+        submitBtn.textContent = '';
+        originalChildren.forEach(child => submitBtn.appendChild(child));
         submitBtn.disabled = false;
       }
     } else {
@@ -492,7 +503,8 @@ function initContactForm() {
         openMailto(name, email, subject, message);
         showToast('Opening your email client with message...', 'success');
         form.reset();
-        submitBtn.innerHTML = originalBtnText;
+        submitBtn.textContent = '';
+        originalChildren.forEach(child => submitBtn.appendChild(child));
         submitBtn.disabled = false;
       }, 500);
     }
