@@ -4,6 +4,15 @@
  */
 
 const CACHE_NAME = 'ops-portfolio-v1';
+const ALLOWED_ORIGINS = [
+  self.location.origin,
+  'https://fonts.googleapis.com',
+  'https://fonts.gstatic.com',
+  'https://cdnjs.cloudflare.com',
+  'https://cdn.tailwindcss.com',
+  'https://ghchart.rshah.org',
+  'https://ui-avatars.com'
+];
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -44,10 +53,18 @@ self.addEventListener('fetch', (event) => {
       }
       return fetch(event.request).then((networkResponse) => {
         // Cache external fonts/styles dynamically if valid
+        let isAllowedOrigin = false;
+        try {
+          const url = new URL(event.request.url);
+          isAllowedOrigin = ALLOWED_ORIGINS.includes(url.origin);
+        } catch (e) {
+          // Ignore invalid URLs
+        }
+
         if (
           networkResponse &&
           networkResponse.status === 200 &&
-          (event.request.url.startsWith('http') || event.request.url.startsWith('https'))
+          isAllowedOrigin
         ) {
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
