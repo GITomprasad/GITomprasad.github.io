@@ -363,9 +363,15 @@ function initBackToTop() {
   progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
   progressCircle.style.strokeDashoffset = `${circumference}`;
 
+  let docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  let ticking = false;
+
+  window.addEventListener('resize', () => {
+    docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  }, { passive: true });
+
   function updateScrollProgress() {
     const scrollY = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = Math.min(Math.max(scrollY / (docHeight || 1), 0), 1);
 
     const offset = circumference - (progress * circumference);
@@ -376,9 +382,16 @@ function initBackToTop() {
     } else {
       backToTopBtn.classList.remove('show');
     }
+    ticking = false;
   }
 
-  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(updateScrollProgress);
+      ticking = true;
+    }
+  }, { passive: true });
+
   updateScrollProgress();
 
   backToTopBtn.addEventListener('click', () => {
