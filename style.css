@@ -163,7 +163,7 @@ html:not(.dark) .section-watermark {
 }
 
 .nav-link.active {
-  color: #38bdf8 !important;
+  color: #38bdf8;
   background-color: rgba(56, 189, 248, 0.1);
 }
 
