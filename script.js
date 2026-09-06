@@ -512,28 +512,11 @@ function copyToClipboard(text, message = 'Copied to clipboard!') {
     navigator.clipboard.writeText(text).then(() => {
       showToast(message);
     }).catch(() => {
-      fallbackCopy(text, message);
+      showToast('Failed to copy', 'error');
     });
   } else {
-    fallbackCopy(text, message);
-  }
-}
-
-function fallbackCopy(text, message) {
-  const textArea = document.createElement('textarea');
-  textArea.value = text;
-  textArea.style.position = 'fixed';
-  textArea.style.left = '-999999px';
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-  try {
-    document.execCommand('copy');
-    showToast(message);
-  } catch (err) {
     showToast('Failed to copy', 'error');
   }
-  document.body.removeChild(textArea);
 }
 
 function showToast(message, type = 'success') {
