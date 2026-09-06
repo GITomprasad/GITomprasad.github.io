@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "A modern, high-performance, responsive developer portfolio website designed for **Om Prasad Sahoo** (Computer Science & Engineering undergraduate at NIST University, CGPA: **9.29 / 10.0**). Built with Tailwind CSS, custom modern CSS glassmorphism, interactive JavaScript engines, and PWA offline capability.",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GITomprasad/GITomprasad.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/GITomprasad/GITomprasad.github.io/issues"
+  },
+  "homepage": "https://github.com/GITomprasad/GITomprasad.github.io#readme",
+  "devDependencies": {
+    "jest": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.1"
+  }
+}
