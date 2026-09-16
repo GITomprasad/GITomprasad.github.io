@@ -1,15 +1,12 @@
 /**
  * Om Prasad Sahoo - Developer Portfolio JavaScript Engine
- * UI Upgrade & Feature Improvement Guide (August 2026 Edition)
+ * Refined Human-Crafted Architecture (2026)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initPreloader();
-  initCustomCursor();
+  document.body.classList.add('loaded');
   initThemeToggle();
   initISTClock();
-  initTypewriter();
-  initCanvasBackground();
   initScrollReveal();
   initSkillProgressBars();
   initBackToTop();
@@ -24,84 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================
-   1. PRELOADER / LOADING SCREEN
-   ========================================================== */
-function initPreloader() {
-  const dismissPreloader = () => {
-    document.body.classList.add('loaded');
-  };
-
-  // Dismiss when window is fully loaded or after safe timeout (max 1.2s)
-  if (document.readyState === 'complete') {
-    setTimeout(dismissPreloader, 600);
-  } else {
-    window.addEventListener('load', () => {
-      setTimeout(dismissPreloader, 500);
-    });
-    setTimeout(dismissPreloader, 1200); // Fallback guarantee
-  }
-}
-
-/* ==========================================================
-   2. CUSTOM ANIMATED CURSOR WITH LERP
-   ========================================================== */
-function initCustomCursor() {
-  const dot = document.getElementById('cursor-dot');
-  const ring = document.getElementById('cursor-ring');
-  if (!dot || !ring) return;
-
-  // Check if touch device
-  if (window.matchMedia('(pointer: coarse)').matches) {
-    return;
-  }
-
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let ringX = mouseX;
-  let ringY = mouseY;
-  let isMoving = false;
-
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-    if (!isMoving) {
-      isMoving = true;
-      requestAnimationFrame(renderCursor);
-    }
-  });
-
-  function renderCursor() {
-    // Smooth lerp (linear interpolation)
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
-
-    ring.style.transform = `translate(${ringX}px, ${ringY}px)`;
-
-    if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
-      requestAnimationFrame(renderCursor);
-    } else {
-      isMoving = false;
-    }
-  }
-
-  // Hover detection on interactive elements
-  const hoverTargets = 'a, button, input, textarea, .bento-card, .skill-card, .project-item, .cert-card, .skill-filter-btn, .project-filter-btn';
-  document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(hoverTargets)) {
-      document.body.classList.add('cursor-hover');
-    }
-  });
-
-  document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(hoverTargets)) {
-      document.body.classList.remove('cursor-hover');
-    }
-  });
-}
-
-/* ==========================================================
-   3. THEME TOGGLE (DARK / LIGHT & OS PREFERENCE)
+   1. THEME TOGGLE (DARK / LIGHT & OS PREFERENCE)
    ========================================================== */
 function initThemeToggle() {
   const desktopBtn = document.getElementById('theme-toggle-btn');
@@ -144,7 +64,7 @@ function initThemeToggle() {
 }
 
 /* ==========================================================
-   4. LIVE IST CLOCK (Bento Card C)
+   2. LIVE IST CLOCK (Engineering Timezone Bar)
    ========================================================== */
 function initISTClock() {
   const clockEl = document.getElementById('ist-clock');
@@ -179,136 +99,7 @@ function initISTClock() {
 }
 
 /* ==========================================================
-   5. TYPEWRITER EFFECT
-   ========================================================== */
-function initTypewriter() {
-  const words = [
-    'Career Intelligence Engine',
-    'Urban Risk Intelligence AI',
-    'Intelligent NLP Pipelines',
-    'Machine Learning Models',
-    'Relational SQL Analytics',
-    'High-Performance C++ Logic'
-  ];
-
-  const element = document.getElementById('typewriter-text');
-  if (!element) return;
-
-  let wordIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  let typingSpeed = 90;
-
-  function type() {
-    const currentWord = words[wordIndex];
-
-    if (isDeleting) {
-      element.textContent = currentWord.substring(0, charIndex - 1);
-      charIndex--;
-      typingSpeed = 45;
-    } else {
-      element.textContent = currentWord.substring(0, charIndex + 1);
-      charIndex++;
-      typingSpeed = 100;
-    }
-
-    if (!isDeleting && charIndex === currentWord.length) {
-      typingSpeed = 2000; // Pause when word is fully typed
-      isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      wordIndex = (wordIndex + 1) % words.length;
-      typingSpeed = 400; // Pause before typing next word
-    }
-
-    setTimeout(type, typingSpeed);
-  }
-
-  type();
-}
-
-/* ==========================================================
-   6. INTERACTIVE CONSTELLATION CANVAS
-   ========================================================== */
-function initCanvasBackground() {
-  const canvas = document.getElementById('bg-canvas');
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-
-  resize();
-  window.addEventListener('resize', resize);
-
-  const particleCount = Math.min(Math.floor(window.innerWidth / 22), 50);
-
-  class Particle {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.35;
-      this.vy = (Math.random() - 0.5) * 0.35;
-      this.radius = Math.random() * 1.5 + 0.8;
-      this.color = Math.random() > 0.5 ? 'rgba(99, 102, 241, ' : 'rgba(6, 182, 212, ';
-    }
-
-    update() {
-      this.x += this.vx;
-      this.y += this.vy;
-
-      if (this.x < 0 || this.x > width) this.vx *= -1;
-      if (this.y < 0 || this.y > height) this.vy *= -1;
-    }
-
-    draw() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fillStyle = this.color + '0.7)';
-      ctx.fill();
-    }
-  }
-
-  for (let i = 0; i < particleCount; i++) {
-    particles.push(new Particle());
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-
-      for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 115) {
-          ctx.beginPath();
-          ctx.moveTo(particles[i].x, particles[i].y);
-          ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(99, 102, 241, ${0.16 * (1 - dist / 115)})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
-        }
-      }
-    }
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-}
-
-/* ==========================================================
-   7. SCROLL-TRIGGERED REVEAL ANIMATIONS
+   3. SCROLL-TRIGGERED REVEAL ANIMATIONS (Subtle & Quiet)
    ========================================================== */
 function initScrollReveal() {
   const revealElements = document.querySelectorAll('.reveal');
@@ -322,7 +113,7 @@ function initScrollReveal() {
       }
     });
   }, {
-    threshold: 0.12,
+    threshold: 0.1,
     rootMargin: '0px 0px -40px 0px'
   });
 
@@ -330,7 +121,7 @@ function initScrollReveal() {
 }
 
 /* ==========================================================
-   8. SKILL PROFICIENCY PROGRESS BARS
+   4. SKILL PROFICIENCY PROGRESS BARS
    ========================================================== */
 function initSkillProgressBars() {
   const progressBars = document.querySelectorAll('.progress-bar-fill');
@@ -352,7 +143,7 @@ function initSkillProgressBars() {
 }
 
 /* ==========================================================
-   9. BACK-TO-TOP BUTTON WITH SVG PROGRESS RING
+   5. BACK-TO-TOP BUTTON WITH SVG PROGRESS RING
    ========================================================== */
 function initBackToTop() {
   const backToTopBtn = document.getElementById('back-to-top');
@@ -390,7 +181,7 @@ function initBackToTop() {
 }
 
 /* ==========================================================
-   10. SKILL & PROJECT FILTERING
+   6. SKILL & PROJECT FILTERING
    ========================================================== */
 function initSkillFilters() {
   const filterBtns = document.querySelectorAll('.skill-filter-btn');
@@ -439,7 +230,7 @@ function initProjectFilters() {
 }
 
 /* ==========================================================
-   11. CONTACT FORM & FEEDBACK (FORMSPREE / AJAX READY)
+   7. CONTACT FORM & FEEDBACK (FORMSPREE / AJAX READY)
    ========================================================== */
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -494,18 +285,18 @@ function initContactForm() {
         form.reset();
         submitBtn.innerHTML = originalBtnText;
         submitBtn.disabled = false;
-      }, 500);
+      }, 400);
     }
   });
 
   function openMailto(name, email, subject, message) {
-    const mailtoUrl = `mailto:omsahoo07102005@gmail.com?subject=${encodeURIComponent(subject + ' - from ' + name)}&body=${encodeURIComponent("Sender Name: " + name + "\nSender Email: " + email + "\n\n" + message)}`;
+    const mailtoUrl = `mailto:omsahoo07102005@gmail.com?subject=${encodeURIComponent(subject + ' - from ' + name)}&body=${encodeURIComponent('Sender Name: ' + name + '\nSender Email: ' + email + '\n\n' + message)}`;
     window.location.href = mailtoUrl;
   }
 }
 
 /* ==========================================================
-   12. COPY TO CLIPBOARD & TOAST NOTIFICATION
+   8. COPY TO CLIPBOARD & TOAST NOTIFICATION
    ========================================================== */
 function copyToClipboard(text, message = 'Copied to clipboard!') {
   if (navigator.clipboard && window.isSecureContext) {
@@ -549,7 +340,7 @@ function showToast(message, type = 'success') {
     toastIcon.className = 'w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm shrink-0';
     toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
   } else {
-    toastIcon.className = 'w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0';
+    toastIcon.className = 'w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm shrink-0';
     toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
   }
 
@@ -559,11 +350,11 @@ function showToast(message, type = 'success') {
   setTimeout(() => {
     toast.classList.remove('translate-y-0', 'opacity-100');
     toast.classList.add('translate-y-24', 'opacity-0');
-  }, 3400);
+  }, 3000);
 }
 
 /* ==========================================================
-   13. SCROLL-SPY NAVIGATION
+   9. SCROLL-SPY NAVIGATION
    ========================================================== */
 function initScrollSpy() {
   const sections = document.querySelectorAll('section[id]');
@@ -594,7 +385,7 @@ function initScrollSpy() {
 }
 
 /* ==========================================================
-   14. MOBILE MENU
+   10. MOBILE MENU
    ========================================================== */
 function initMobileMenu() {
   const menuBtn = document.getElementById('mobile-menu-btn');
@@ -633,7 +424,7 @@ function initMobileMenu() {
 }
 
 /* ==========================================================
-   15. CERTIFICATE MODAL
+   11. CERTIFICATE MODAL
    ========================================================== */
 function showCertModal(title, category, pdfUrl = null, issuer = 'Verified Authority', date = 'Completed') {
   const modal = document.getElementById('cert-modal');
@@ -698,7 +489,7 @@ function closeCertModal() {
 }
 
 /* ==========================================================
-   16. RESUME MODAL
+   12. RESUME MODAL
    ========================================================== */
 function openResumeModal() {
   const modal = document.getElementById('resume-modal');
@@ -731,7 +522,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 /* ==========================================================
-   17. AUTO COPYRIGHT YEAR & PWA SERVICE WORKER
+   13. AUTO COPYRIGHT YEAR & PWA SERVICE WORKER
    ========================================================== */
 function updateCopyrightYear() {
   const yearEl = document.getElementById('year-copy');
@@ -751,7 +542,7 @@ function registerServiceWorker() {
 }
 
 /* ==========================================================
-   18. GITHUB LIVE STATS FETCHER
+   14. GITHUB LIVE STATS FETCHER
    ========================================================== */
 function initGitHubStats() {
   const repoCountEl = document.getElementById('gh-repo-count');
@@ -771,4 +562,3 @@ function initGitHubStats() {
       // Quietly retain default fallback
     });
 }
-
