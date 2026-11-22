@@ -534,7 +534,10 @@ function updateCopyrightYear() {
 function registerServiceWorker() {
   if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').catch(() => {
+      navigator.serviceWorker.register('./sw.js').then((registration) => {
+        // Force check for updated sw.js immediately
+        registration.update();
+      }).catch(() => {
         // SW registration quiet fail if offline/file protocol
       });
     });
