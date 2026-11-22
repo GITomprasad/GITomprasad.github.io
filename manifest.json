@@ -4,8 +4,8 @@
   "description": "Portfolio of Om Prasad Sahoo - Computer Science Undergraduate at NIST University specializing in Machine Learning, NLP, Data Science, and Software Engineering.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#080d1a",
-  "theme_color": "#4f46e5",
+  "background_color": "#070708",
+  "theme_color": "#ff453a",
   "orientation": "portrait-primary",
   "icons": [
     {

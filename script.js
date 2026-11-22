@@ -340,7 +340,7 @@ function showToast(message, type = 'success') {
     toastIcon.className = 'w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm shrink-0';
     toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
   } else {
-    toastIcon.className = 'w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm shrink-0';
+    toastIcon.className = 'w-8 h-8 rounded-lg bg-[#ff453a]/20 text-[#ff453a] flex items-center justify-center font-bold text-sm shrink-0';
     toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
   }
 
